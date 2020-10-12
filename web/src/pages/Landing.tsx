@@ -2,6 +2,7 @@ import React from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import logoImg from '../assets/images/logo.svg';
 import '../assets/styles/pages/landing.css';
+import { Link } from 'react-router-dom';
 
 const Landing: React.FC = () => (
   <div id="page-landing">
@@ -18,9 +19,9 @@ const Landing: React.FC = () => (
         <span>Bahia</span>
       </div>
 
-      <a href="#" className="enter-app">
+      <Link to="/orphanages" className="enter-app">
         <FiArrowRight size={26} color="rgba(0, 0, 0, 0.6)" />
-      </a>
+      </Link>
     </div>
   </div>
 );
