@@ -61,14 +61,14 @@
 }
 .content-wrapper .enter-app {
   position: absolute;
-  right: 0;
-  bottom: 0px;
+  right: 0px;
+  bottom: 8px;
 
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
 
   background-color: #ffd666;
-  border-radius: 30px;
+  border-radius: 20px;
 
   display: flex;
   align-items: center;
