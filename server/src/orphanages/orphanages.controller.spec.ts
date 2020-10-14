@@ -5,6 +5,7 @@ import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
 
 const mockOrphanagesService = () => ({
   create: jest.fn(),
+  getAll: jest.fn(),
 });
 
 const orphanageMock: CreateOrphanageDTO = {
@@ -41,11 +42,21 @@ describe('OrphanagesController', () => {
   });
 
   describe('store()', () => {
-    it('should calls store() and return the result', async () => {
+    it('should call store() and return the result', async () => {
       const expectedResponse = 'any_value';
       service.create.mockResolvedValue(expectedResponse);
 
       const result = await controller.store(orphanageMock);
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  describe('index()', () => {
+    it('should call index() and return the result', async () => {
+      const expectedResponse = ['any_value'];
+      service.getAll.mockResolvedValue(expectedResponse);
+      const result = await controller.index();
+
       expect(result).toEqual(expectedResponse);
     });
   });

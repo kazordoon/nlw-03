@@ -5,6 +5,7 @@ import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
 
 const mockOrphanagesRepository = () => ({
   createOrphanage: jest.fn(),
+  find: jest.fn(),
 });
 
 const orphanageMock: CreateOrphanageDTO = {
@@ -41,13 +42,24 @@ describe('OrphanagesService', () => {
   });
 
   describe('create()', () => {
-    it('should calls orphanagesRepository and return the result', async () => {
+    it('should call orphanagesRepository.createOrphanage() and return the result', async () => {
       const expectedResponse = { id: 'any_id' };
       repository.createOrphanage.mockResolvedValue(expectedResponse);
 
       const result = await service.create(orphanageMock);
 
       expect(repository.createOrphanage).toHaveBeenCalledWith(orphanageMock);
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  describe('getAll()', () => {
+    it('should call orphanagesRepository.find() and return the result', async () => {
+      const expectedResponse = ['any_value'];
+      repository.find.mockResolvedValue(expectedResponse);
+      const result = await service.getAll();
+
+      expect(repository.find).toHaveBeenCalled();
       expect(result).toEqual(expectedResponse);
     });
   });

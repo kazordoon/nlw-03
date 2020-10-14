@@ -6,6 +6,11 @@ import { OrphanageRepository } from './repositories/orphanage.repository';
 export class OrphanagesService {
   constructor(private orphanagesRepository: OrphanageRepository) {}
 
+  public async getAll() {
+    const orphanages = await this.orphanagesRepository.find();
+    return orphanages;
+  }
+
   public async create(createOrphanageDTO: CreateOrphanageDTO) {
     const orphanage = await this.orphanagesRepository.createOrphanage(
       createOrphanageDTO,

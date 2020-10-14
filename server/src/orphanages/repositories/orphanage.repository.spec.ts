@@ -37,7 +37,7 @@ describe('OrphanageRepository', () => {
   });
 
   describe('createOrphanage()', () => {
-    it('should calls createOrphanage() and return the result', async () => {
+    it('should call createOrphanage() and return the result', async () => {
       const expectedResponse = 'any_value';
       repository.createOrphanage.mockResolvedValue(expectedResponse);
       const result = await repository.createOrphanage(orphanageMock);
