@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { Geolocation } from 'src/contracts/Geolocation';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { Geolocation } from '../../contracts/Geolocation';
+import { Image } from './image.entity';
 
 @Entity({ name: 'orphanages' })
 export class Orphanage {
@@ -23,4 +30,12 @@ export class Orphanage {
 
   @Column()
   public opening_hours: string;
+
+  @OneToMany(
+    () => Image,
+    image => image.orphanage,
+    { cascade: ['insert', 'update'] },
+  )
+  @JoinColumn({ name: 'orphanage_id' })
+  public images: Image[];
 }
