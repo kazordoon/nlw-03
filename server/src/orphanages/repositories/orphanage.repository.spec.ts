@@ -2,7 +2,17 @@ import { OrphanageRepository } from './orphanage.repository';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateOrphanageDTO } from '../dto/create-orphanage.dto';
 
-const mockOrphanagesRepository = () => ({
+const orphanageMock: CreateOrphanageDTO = {
+  name: 'any_name',
+  latitude: 0.0,
+  longitude: 0.0,
+  about: 'any_about',
+  instructions: 'any_instructions',
+  opening_hours: 'any_opening_hours',
+  open_on_weekends: true,
+};
+
+const orphanageRepositoryMock = () => ({
   createOrphanage: jest.fn(),
 });
 
@@ -14,7 +24,7 @@ describe('OrphanageRepository', () => {
       providers: [
         {
           provide: OrphanageRepository,
-          useFactory: mockOrphanagesRepository,
+          useFactory: orphanageRepositoryMock,
         },
       ],
     }).compile();
@@ -27,25 +37,13 @@ describe('OrphanageRepository', () => {
   });
 
   describe('createOrphanage()', () => {
-    it('should calls createOrphanage()', async () => {
+    it('should calls createOrphanage() and return the result', async () => {
       const expectedResponse = 'any_value';
       repository.createOrphanage.mockResolvedValue(expectedResponse);
+      const result = await repository.createOrphanage(orphanageMock);
 
-      const createOrphanageDTO: CreateOrphanageDTO = {
-        name: 'any_name',
-        latitude: 0.0,
-        longitude: 0.0,
-        about: 'any_about',
-        instructions: 'any_instructions',
-        opening_hours: 'any_opening_hours',
-        open_on_weekends: true,
-      };
-      const result = await repository.createOrphanage(createOrphanageDTO);
-
-      expect(repository.createOrphanage).toHaveBeenCalledWith(
-        createOrphanageDTO,
-      );
-      expect(result).toEqual(expectedResponse);
+      expect(repository.createOrphanage).toHaveBeenCalledWith(orphanageMock);
+      expect(result).toBe(expectedResponse);
     });
   });
 });

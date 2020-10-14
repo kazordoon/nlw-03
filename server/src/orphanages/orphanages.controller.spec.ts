@@ -7,6 +7,16 @@ const mockOrphanagesService = () => ({
   create: jest.fn(),
 });
 
+const orphanageMock: CreateOrphanageDTO = {
+  name: 'any_name',
+  latitude: 0.0,
+  longitude: 0.0,
+  about: 'any_about',
+  instructions: 'any_instructions',
+  opening_hours: 'any_opening_hours',
+  open_on_weekends: true,
+};
+
 describe('OrphanagesController', () => {
   let controller: OrphanagesController;
   let service: any;
@@ -35,16 +45,7 @@ describe('OrphanagesController', () => {
       const expectedResponse = 'any_value';
       service.create.mockResolvedValue(expectedResponse);
 
-      const createOrphanageDTO: CreateOrphanageDTO = {
-        name: 'any_name',
-        latitude: 0.0,
-        longitude: 0.0,
-        about: 'any_about',
-        instructions: 'any_instructions',
-        opening_hours: 'any_opening_hours',
-        open_on_weekends: true,
-      };
-      const result = await controller.store(createOrphanageDTO);
+      const result = await controller.store(orphanageMock);
       expect(result).toEqual(expectedResponse);
     });
   });
