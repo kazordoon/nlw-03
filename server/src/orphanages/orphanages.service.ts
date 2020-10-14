@@ -20,10 +20,14 @@ export class OrphanagesService {
     }
   }
 
-  public async create(createOrphanageDTO: CreateOrphanageDTO) {
+  public async create(
+    createOrphanageDTO: CreateOrphanageDTO,
+    images: Express.Multer.File[],
+  ) {
     const orphanage = await this.orphanagesRepository.createOrphanage(
       createOrphanageDTO,
+      images,
     );
-    return { id: orphanage.id };
+    return orphanage;
   }
 }

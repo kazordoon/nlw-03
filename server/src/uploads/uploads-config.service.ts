@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as crypto from 'crypto';
 import * as multer from 'multer';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import {
   MulterOptionsFactory,
   MulterModuleOptions,
@@ -21,7 +21,7 @@ export class UploadsConfigService implements MulterOptionsFactory {
         if (allowedMimes.includes(file.mimetype)) {
           cb(null, true);
         } else {
-          cb(new Error('Invalid file type'), false);
+          cb(new UnprocessableEntityException('Invalid file type'), false);
         }
       },
       limits: {

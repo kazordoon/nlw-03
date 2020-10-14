@@ -1,6 +1,16 @@
-import { Controller, Post, Body, HttpCode, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  Get,
+  Param,
+  UseInterceptors,
+  UploadedFiles,
+} from '@nestjs/common';
 import { OrphanagesService } from './orphanages.service';
 import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('orphanages')
 export class OrphanagesController {
@@ -16,9 +26,13 @@ export class OrphanagesController {
     return this.orphanagesService.getOne(id);
   }
 
+  @UseInterceptors(FilesInterceptor('images'))
   @HttpCode(201)
   @Post()
-  public async store(@Body() createOrphanageDTO: CreateOrphanageDTO) {
-    return this.orphanagesService.create(createOrphanageDTO);
+  public async store(
+    @Body() createOrphanageDTO: CreateOrphanageDTO,
+    @UploadedFiles() images: Express.Multer.File[],
+  ) {
+    return this.orphanagesService.create(createOrphanageDTO, images);
   }
 }

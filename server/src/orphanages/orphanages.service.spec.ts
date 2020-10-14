@@ -20,6 +20,7 @@ const orphanageMock: CreateOrphanageDTO = {
   open_on_weekends: true,
 };
 const orphanageIdMock = 1;
+const orphanageImagesMock = [] as Express.Multer.File[];
 
 describe('OrphanagesService', () => {
   let service: OrphanagesService;
@@ -46,12 +47,15 @@ describe('OrphanagesService', () => {
 
   describe('create()', () => {
     it('should call orphanagesRepository.createOrphanage() and return the result', async () => {
-      const expectedResponse = { id: 'any_id' };
+      const expectedResponse = 'any_value';
       repository.createOrphanage.mockResolvedValue(expectedResponse);
 
-      const result = await service.create(orphanageMock);
+      const result = await service.create(orphanageMock, orphanageImagesMock);
 
-      expect(repository.createOrphanage).toHaveBeenCalledWith(orphanageMock);
+      expect(repository.createOrphanage).toHaveBeenCalledWith(
+        orphanageMock,
+        orphanageImagesMock,
+      );
       expect(result).toEqual(expectedResponse);
     });
   });
