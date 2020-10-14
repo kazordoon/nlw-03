@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, Get } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Get, Param } from '@nestjs/common';
 import { OrphanagesService } from './orphanages.service';
 import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
 
@@ -11,9 +11,14 @@ export class OrphanagesController {
     return this.orphanagesService.getAll();
   }
 
+  @Get(':id')
+  public async show(@Param('id') id: number) {
+    return this.orphanagesService.getOne(id);
+  }
+
   @HttpCode(201)
   @Post()
-  public store(@Body() createOrphanageDTO: CreateOrphanageDTO) {
+  public async store(@Body() createOrphanageDTO: CreateOrphanageDTO) {
     return this.orphanagesService.create(createOrphanageDTO);
   }
 }

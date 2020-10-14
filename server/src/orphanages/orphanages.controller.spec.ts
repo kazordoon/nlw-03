@@ -3,9 +3,10 @@ import { OrphanagesController } from './orphanages.controller';
 import { OrphanagesService } from './orphanages.service';
 import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
 
-const mockOrphanagesService = () => ({
+const orphanagesServiceMock = () => ({
   create: jest.fn(),
   getAll: jest.fn(),
+  getOne: jest.fn((_id: number) => {}),
 });
 
 const orphanageMock: CreateOrphanageDTO = {
@@ -17,6 +18,7 @@ const orphanageMock: CreateOrphanageDTO = {
   opening_hours: 'any_opening_hours',
   open_on_weekends: true,
 };
+const orphanageIdMock = 1;
 
 describe('OrphanagesController', () => {
   let controller: OrphanagesController;
@@ -28,7 +30,7 @@ describe('OrphanagesController', () => {
       providers: [
         {
           provide: OrphanagesService,
-          useFactory: mockOrphanagesService,
+          useFactory: orphanagesServiceMock,
         },
       ],
     }).compile();
@@ -58,6 +60,16 @@ describe('OrphanagesController', () => {
       const result = await controller.index();
 
       expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  describe('show()', () => {
+    it('should call show() and return the result', async () => {
+      const expectedResponse = 'any_value';
+      service.getOne.mockResolvedValue(expectedResponse);
+      const result = await controller.show(orphanageIdMock);
+
+      expect(result).toEqual('any_value');
     });
   });
 });

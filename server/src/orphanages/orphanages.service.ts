@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
 import { OrphanageRepository } from './repositories/orphanage.repository';
 
@@ -9,6 +9,15 @@ export class OrphanagesService {
   public async getAll() {
     const orphanages = await this.orphanagesRepository.find();
     return orphanages;
+  }
+
+  public async getOne(id: number) {
+    try {
+      const orphanage = await this.orphanagesRepository.findOneOrFail(id);
+      return orphanage;
+    } catch (err) {
+      throw new NotFoundException('Orphanage not found.');
+    }
   }
 
   public async create(createOrphanageDTO: CreateOrphanageDTO) {
