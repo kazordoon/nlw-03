@@ -23,7 +23,7 @@ import { ViewsModule } from './views/views.module';
   providers: [
     {
       provide: APP_PIPE,
-      useClass: ValidationPipe,
+      useValue: new ValidationPipe({ transform: true }),
     },
   ],
 })

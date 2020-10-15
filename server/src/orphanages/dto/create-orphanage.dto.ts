@@ -1,10 +1,10 @@
 import {
   IsString,
   MaxLength,
-  IsBoolean,
   IsLatitude,
   IsLongitude,
   IsNotEmpty,
+  IsBooleanString,
 } from 'class-validator';
 
 export class CreateOrphanageDTO {
@@ -32,7 +32,7 @@ export class CreateOrphanageDTO {
   public instructions: string;
 
   @IsNotEmpty()
-  @IsBoolean()
+  @IsBooleanString()
   public open_on_weekends: boolean;
 
   @IsNotEmpty()

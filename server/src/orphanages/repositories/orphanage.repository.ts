@@ -30,7 +30,7 @@ export class OrphanageRepository extends Repository<Orphanage> {
       about,
       instructions,
       opening_hours: openingHours,
-      open_on_weekends: openOnWeekends,
+      open_on_weekends: Boolean(openOnWeekends),
       images,
     });
 
