@@ -1,4 +1,6 @@
+import * as path from 'path';
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { EnvironmentVariablesModule } from './environment-variables/environment-variables.module';
 import { DatabaseModule } from './database/database.module';
 import { OrphanagesModule } from './orphanages/orphanages.module';
@@ -12,6 +14,10 @@ import { ViewsModule } from './views/views.module';
     OrphanagesModule,
     UploadsModule,
     ViewsModule,
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'tmp', 'uploads'),
+      serveRoot: '/uploads',
+    }),
   ],
 })
 export class AppModule {}
