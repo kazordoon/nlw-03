@@ -21,7 +21,7 @@ export default function OrphanagesMap() {
 
   useEffect(() => {
     api
-      .get('/orphanages')
+      .get<Orphanage[]>('/orphanages')
       .then((response) => {
         setOrphanages(response.data);
       })
