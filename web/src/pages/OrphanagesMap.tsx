@@ -15,49 +15,49 @@ const mapIcon = Leaflet.icon({
   popupAnchor: [170, 2],
 });
 
-const OrphanagesMap: React.FC = () => (
-  <div id="page-map">
-    <aside>
-      <header>
-        <img src={mapMarkerImg} alt="Map marker" />
+export default function OrphanagesMap() {
+  return (
+    <div id="page-map">
+      <aside>
+        <header>
+          <img src={mapMarkerImg} alt="Map marker" />
 
-        <h2>Escolha um orfanato no mapa</h2>
-        <p>Muitas crianças estão esperando a sua visita :)</p>
-      </header>
+          <h2>Escolha um orfanato no mapa</h2>
+          <p>Muitas crianças estão esperando a sua visita :)</p>
+        </header>
 
-      <footer>
-        <strong>Salvador</strong>
-        <span>Bahia</span>
-      </footer>
-    </aside>
+        <footer>
+          <strong>Salvador</strong>
+          <span>Bahia</span>
+        </footer>
+      </aside>
 
-    <Map
-      center={[-12.9799063, -38.5115833]}
-      zoom={15}
-      style={{ width: '100%', height: '100%' }}
-    >
-      <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={[-12.9799063, -38.5115833]} icon={mapIcon}>
-        <Popup
-          closeButton={false}
-          minWidth={240}
-          maxWidth={240}
-          className="map-popup"
-        >
-          Nome
-          <Link to="/orphanages/1">
-            <FiArrowRight size={20} color="#fff" />
-          </Link>
-        </Popup>
-      </Marker>
-    </Map>
+      <Map
+        center={[-12.9799063, -38.5115833]}
+        zoom={15}
+        style={{ width: '100%', height: '100%' }}
+      >
+        <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Marker position={[-12.9799063, -38.5115833]} icon={mapIcon}>
+          <Popup
+            closeButton={false}
+            minWidth={240}
+            maxWidth={240}
+            className="map-popup"
+          >
+            Nome
+            <Link to="/orphanages/1">
+              <FiArrowRight size={20} color="#fff" />
+            </Link>
+          </Popup>
+        </Marker>
+      </Map>
 
-    <div>
-      <Link to="/orphanages/create" className="create-orphanage">
-        <FiPlus size={32} color="#fff" />
-      </Link>
+      <div>
+        <Link to="/orphanages/create" className="create-orphanage">
+          <FiPlus size={32} color="#fff" />
+        </Link>
+      </div>
     </div>
-  </div>
-);
-
-export default OrphanagesMap;
+  );
+}
