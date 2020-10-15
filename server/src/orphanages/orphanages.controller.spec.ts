@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrphanagesController } from './orphanages.controller';
 import { OrphanagesService } from './orphanages.service';
@@ -6,8 +8,10 @@ import { CreateOrphanageDTO } from './dto/create-orphanage.dto';
 const orphanagesServiceMock = () => ({
   create: jest.fn(),
   getAll: jest.fn(),
-  getOne: jest.fn((_id: number) => {}),
+  getOne: jest.fn((id: number) => {}),
 });
+
+const orphanageImagesMock = [] as Express.Multer.File[];
 
 const orphanageMock: CreateOrphanageDTO = {
   name: 'any_name',
@@ -48,7 +52,7 @@ describe('OrphanagesController', () => {
       const expectedResponse = 'any_value';
       service.create.mockResolvedValue(expectedResponse);
 
-      const result = await controller.store(orphanageMock);
+      const result = await controller.store(orphanageMock, orphanageImagesMock);
       expect(result).toEqual(expectedResponse);
     });
   });

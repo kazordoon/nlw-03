@@ -42,6 +42,6 @@ export class ViewsService {
   }
 
   public renderMany(orphanages: Orphanage[]) {
-    return orphanages.map(this.renderOne);
+    return orphanages.map(orphanage => this.renderOne(orphanage));
   }
 }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // TODO: Cover uncovered lines
 import { Test, TestingModule } from '@nestjs/testing';
 import { ViewsService } from './views.service';
