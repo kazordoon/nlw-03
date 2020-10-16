@@ -9,6 +9,11 @@ import Sidebar from '../components/Sidebar';
 import mapIcon from '../utils/mapIcon';
 import api from '../services/api';
 
+export interface PreviewImage {
+  image_name: string;
+  content: string;
+}
+
 export default function CreateOrphanage() {
   const history = useHistory();
 
@@ -24,7 +29,14 @@ export default function CreateOrphanage() {
   const [openingHours, setOpeningHours] = useState('');
   const [openOnWeekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImages, setPreviewImages] = useState<PreviewImage[]>([]);
+
+  function makePreviewImages(targetImages: File[]) {
+    return targetImages.map((image) => ({
+      image_name: image.name,
+      content: URL.createObjectURL(image),
+    }));
+  }
 
   function handleMapClick(event: LeafletMouseEvent) {
     const { lat, lng } = event.latlng;
@@ -60,7 +72,6 @@ export default function CreateOrphanage() {
 
   function handleImageSelection(event: ChangeEvent<HTMLInputElement>) {
     let selectedImages: File[];
-    let selectedPreviewImages: string[];
 
     const noImageWasSelected = !event.target.files;
     if (noImageWasSelected) {
@@ -76,8 +87,16 @@ export default function CreateOrphanage() {
       setImages(selectedImages);
     }
 
-    selectedPreviewImages = selectedImages.map(URL.createObjectURL);
+    const selectedPreviewImages = makePreviewImages(selectedImages);
     setPreviewImages(selectedPreviewImages);
+  }
+
+  function handleImageSelectionRemove(imageName: string) {
+    const updatedImages = images.filter((image) => image.name !== imageName);
+    setImages(updatedImages);
+
+    const updatedPreviewImages = makePreviewImages(updatedImages);
+    setPreviewImages(updatedPreviewImages);
   }
 
   return (
@@ -133,7 +152,14 @@ export default function CreateOrphanage() {
 
               <div className="images-container">
                 {previewImages.map((previewImage, index) => (
-                  <img key={index} src={previewImage} alt={name} />
+                  <img
+                    key={index}
+                    src={previewImage.content}
+                    alt={name}
+                    onClick={() =>
+                      handleImageSelectionRemove(previewImage.image_name)
+                    }
+                  />
                 ))}
 
                 <label htmlFor="image[]" className="new-image">

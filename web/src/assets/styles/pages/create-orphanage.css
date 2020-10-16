@@ -138,6 +138,8 @@ form.create-orphanage-form .input-block .images-container img {
   height: 96px;
   object-fit: cover;
   border-radius: 20px;
+
+  cursor: pointer;
 }
 
 form.create-orphanage-form .input-block .new-image {
