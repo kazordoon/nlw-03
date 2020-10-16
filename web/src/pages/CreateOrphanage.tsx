@@ -8,11 +8,7 @@ import '../assets/styles/pages/create-orphanage.css';
 import Sidebar from '../components/Sidebar';
 import mapIcon from '../utils/mapIcon';
 import api from '../services/api';
-
-export interface PreviewImage {
-  image_name: string;
-  content: string;
-}
+import PreviewImage from '../contracts/PreviewImage';
 
 export default function CreateOrphanage() {
   const history = useHistory();
