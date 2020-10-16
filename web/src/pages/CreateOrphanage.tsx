@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, ChangeEvent } from 'react';
+import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { FiPlus } from 'react-icons/fi';
 import { LeafletMouseEvent } from 'leaflet';
@@ -26,6 +26,13 @@ export default function CreateOrphanage() {
   const [openOnWeekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<PreviewImage[]>([]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setPosition({ latitude, longitude });
+    });
+  }, []);
 
   function makePreviewImages(targetImages: File[]) {
     return targetImages.map((image) => ({
