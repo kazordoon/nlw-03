@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import OrphanagesMap from './src/pages/OrphanagesMap';
+import Routes from './src/routes';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <OrphanagesMap />
+      <Routes />
     </View>
   );
 }
