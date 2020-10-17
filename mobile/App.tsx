@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import OrphanagesMap from './src/pages/OrphanagesMap/OrphanagesMap';
+import OrphanagesMap from './src/pages/OrphanagesMap';
 
 export default function App() {
   return (
