@@ -18,6 +18,7 @@ export default StyleSheet.create({
   },
   calloutText: {
     color: '#0089a5',
+    fontFamily: 'Nunito_700Bold',
     fontSize: 14,
   },
   footer: {
@@ -41,6 +42,7 @@ export default StyleSheet.create({
   },
   footerText: {
     color: '#8fa7b3',
+    fontFamily: 'Nunito_700Bold',
   },
   createOrphanageButton: {
     width: 56,

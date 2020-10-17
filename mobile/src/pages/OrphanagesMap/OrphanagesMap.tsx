@@ -2,11 +2,29 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Feather } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
+import {
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+  Nunito_800ExtraBold,
+} from '@expo-google-fonts/nunito';
 
 import mapMarker from '../../../assets/images/map-marker.png';
 import styles from './styles';
 
 export default function OrphanagesMap() {
+  const [fontsHaveBeenLoaded] = useFonts({
+    Nunito_600SemiBold,
+    Nunito_700Bold,
+    Nunito_800ExtraBold,
+  });
+
+  const fontsHaveNotBeenLoaded = !fontsHaveBeenLoaded;
+
+  if (fontsHaveNotBeenLoaded) {
+    return null;
+  }
+
   return (
     <>
       <MapView
