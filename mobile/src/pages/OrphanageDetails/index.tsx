@@ -1,12 +1,14 @@
-import React from 'react';
-import { Image, View, ScrollView, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Image, View, ScrollView, Text, Linking } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Feather, FontAwesome } from '@expo/vector-icons';
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, TouchableOpacity } from 'react-native-gesture-handler';
 import { useRoute, RouteProp } from '@react-navigation/native';
 
 import styles from './styles';
 import mapMarkerImg from '../../../assets/images/map-marker.png';
+import Orphanage from '../../contracts/Orphanage';
+import api from '../../services/api';
 
 type RouteParamsList = {
   OrphanageDetails: {
@@ -16,45 +18,68 @@ type RouteParamsList = {
 
 export default function OrphanageDetails() {
   const route = useRoute<RouteProp<RouteParamsList, 'OrphanageDetails'>>();
-  console.log(route.params.id);
+
+  const [orphanage, setOrphanage] = useState<Orphanage>();
+
+  useEffect(() => {
+    api
+      .get(`/orphanages/${route.params.id}`)
+      .then((response) => setOrphanage(response.data))
+      .catch(() =>
+        alert('Não foi possível carregar os detalhes deste orfanato.'),
+      );
+  }, [route.params.id]);
+
+  if (!orphanage) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.description}>Carregando...</Text>
+      </View>
+    );
+  }
+
+  const {
+    name,
+    latitude,
+    longitude,
+    about,
+    instructions,
+    opening_hours: openingHours,
+    open_on_weekends: openOnWeekends,
+    images,
+  } = orphanage;
+
+  function handleRoutesOnGoogleMaps() {
+    Linking.openURL(
+      `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imagesContainer}>
         <ScrollView horizontal pagingEnabled>
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg',
-            }}
-          />
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg',
-            }}
-          />
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://fmnova.com.br/images/noticias/safe_image.jpg',
-            }}
-          />
+          {images.map(({ id, path }) => (
+            <Image
+              key={id}
+              style={styles.image}
+              source={{
+                uri: path,
+              }}
+            />
+          ))}
         </ScrollView>
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.title}>Orf. Esperança</Text>
-        <Text style={styles.description}>
-          Presta assistência a crianças de 06 a 15 anos que se encontre em
-          situação de risco e/ou vulnerabilidade social.
-        </Text>
+        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.description}>{about}</Text>
 
         <View style={styles.mapContainer}>
           <MapView
             initialRegion={{
-              latitude: -27.2092052,
-              longitude: -49.6401092,
+              latitude,
+              longitude,
               latitudeDelta: 0.008,
               longitudeDelta: 0.008,
             }}
@@ -67,44 +92,48 @@ export default function OrphanageDetails() {
             <Marker
               icon={mapMarkerImg}
               coordinate={{
-                latitude: -27.2092052,
-                longitude: -49.6401092,
+                latitude,
+                longitude,
               }}
             />
           </MapView>
 
-          <View style={styles.routesContainer}>
+          <TouchableOpacity
+            style={styles.routesContainer}
+            onPress={handleRoutesOnGoogleMaps}
+          >
             <Text style={styles.routesText}>Ver rotas no Google Maps</Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.separator} />
 
         <Text style={styles.title}>Instruções para visita</Text>
-        <Text style={styles.description}>
-          Venha como se sentir a vontade e traga muito amor e paciência para
-          dar.
-        </Text>
+        <Text style={styles.description}>{instructions}</Text>
 
         <View style={styles.scheduleContainer}>
           <View style={[styles.scheduleItem, styles.scheduleItemBlue]}>
             <Feather name="clock" size={40} color="#2AB5D1" />
             <Text style={[styles.scheduleText, styles.scheduleTextBlue]}>
-              Segunda à Sexta 8h às 18h
+              {openingHours}
             </Text>
           </View>
-          <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
-            <Feather name="info" size={40} color="#39CC83" />
-            <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
-              Atendemos fim de semana
-            </Text>
-          </View>
+          {openOnWeekends ? (
+            <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
+              <Feather name="info" size={40} color="#39CC83" />
+              <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>
+                Atendemos fim de semana
+              </Text>
+            </View>
+          ) : (
+            <View style={[styles.scheduleItem, styles.scheduleItemRed]}>
+              <Feather name="info" size={40} color="#FF669D" />
+              <Text style={[styles.scheduleText, styles.scheduleTextRed]}>
+                Não atendemos fim de semana
+              </Text>
+            </View>
+          )}
         </View>
-
-        <RectButton style={styles.contactButton} onPress={() => {}}>
-          <FontAwesome name="whatsapp" size={24} color="#FFF" />
-          <Text style={styles.contactButtonText}>Entrar em contato</Text>
-        </RectButton>
       </View>
     </ScrollView>
   );
