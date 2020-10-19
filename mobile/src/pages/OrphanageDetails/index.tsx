@@ -3,11 +3,21 @@ import { Image, View, ScrollView, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
+import { useRoute, RouteProp } from '@react-navigation/native';
 
 import styles from './styles';
 import mapMarkerImg from '../../../assets/images/map-marker.png';
 
+type RouteParamsList = {
+  OrphanageDetails: {
+    id: number;
+  };
+};
+
 export default function OrphanageDetails() {
+  const route = useRoute<RouteProp<RouteParamsList, 'OrphanageDetails'>>();
+  console.log(route.params.id);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imagesContainer}>
