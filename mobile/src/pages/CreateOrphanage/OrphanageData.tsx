@@ -15,6 +15,7 @@ import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
 import api from '../../services/api';
+import OrphanageValidator from '../../validators/OrphanageValidator';
 
 export default function OrphanageData() {
   const [name, setName] = useState('');
@@ -72,6 +73,23 @@ export default function OrphanageData() {
 
   async function handleOrphanageDataSubmission() {
     const { latitude, longitude } = route.params.position;
+
+    const orphanage = {
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours: openingHours,
+      open_on_weekends: openOnWeekends,
+    };
+
+    const errors = OrphanageValidator.validate(orphanage);
+    const hasErrors = errors.length > 0;
+    if (hasErrors) {
+      return alert(errors.join('\n'));
+    }
+
     const data = new FormData();
 
     data.append('name', name);
