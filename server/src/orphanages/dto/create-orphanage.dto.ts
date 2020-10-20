@@ -28,7 +28,7 @@ export class CreateOrphanageDTO {
 
   @IsNotEmpty()
   @IsString()
-  @MaxLength(300)
+  @MaxLength(500)
   public instructions: string;
 
   @IsNotEmpty()
@@ -37,5 +37,6 @@ export class CreateOrphanageDTO {
 
   @IsNotEmpty()
   @IsString()
+  @MaxLength(80)
   public opening_hours: string;
 }
