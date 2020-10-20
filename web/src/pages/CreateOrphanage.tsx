@@ -9,6 +9,7 @@ import Sidebar from '../components/Sidebar';
 import mapIcon from '../utils/mapIcon';
 import api from '../services/api';
 import PreviewImage from '../contracts/PreviewImage';
+import OrphanageValidator from '../validators/OrphanageValidator';
 
 export default function CreateOrphanage() {
   const history = useHistory();
@@ -51,6 +52,22 @@ export default function CreateOrphanage() {
     event.preventDefault();
 
     const { latitude, longitude } = position;
+    const orphanage = {
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours: openingHours,
+      open_on_weekends: openOnWeekends,
+    };
+
+    const errors = OrphanageValidator.validate(orphanage);
+    const hasErrors = errors.length > 0;
+    if (hasErrors) {
+      return alert(errors.join('\n'));
+    }
+
     const data = new FormData();
 
     data.append('name', name);
@@ -135,6 +152,7 @@ export default function CreateOrphanage() {
                 id="name"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
+                maxLength={100}
               />
             </div>
 
@@ -188,6 +206,7 @@ export default function CreateOrphanage() {
                 id="instructions"
                 value={instructions}
                 onChange={(event) => setInstructions(event.target.value)}
+                maxLength={500}
               />
             </div>
 
@@ -197,6 +216,7 @@ export default function CreateOrphanage() {
                 id="opening_hours"
                 value={openingHours}
                 onChange={(event) => setOpeningHours(event.target.value)}
+                maxLength={80}
               />
             </div>
 

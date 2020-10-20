@@ -1,13 +1,7 @@
+import CreateOrphanageDTO from './CreateOrphanageDTO';
 import Image from './Image';
 
-export default interface Orphanage {
+export default interface Orphanage extends CreateOrphanageDTO {
   id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  about: string;
-  instructions: string;
-  opening_hours: string;
-  open_on_weekends: boolean;
   images: Image[];
 }
