@@ -84,6 +84,9 @@ export default function OrphanageData() {
       open_on_weekends: openOnWeekends,
     };
 
+    alert(openOnWeekends);
+    console.log(openOnWeekends);
+
     const errors = OrphanageValidator.validate(orphanage);
     const hasErrors = errors.length > 0;
     if (hasErrors) {
