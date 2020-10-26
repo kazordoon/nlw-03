@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import '../assets/styles/components/sidebar.css';
@@ -10,7 +10,9 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside className="app-sidebar">
-      <img src={mapMarkerImg} alt="Happy" />
+      <Link to="/">
+        <img src={mapMarkerImg} alt="Happy" />
+      </Link>
 
       <footer>
         <button type="button" onClick={goBack}>

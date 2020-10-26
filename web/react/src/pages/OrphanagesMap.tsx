@@ -34,7 +34,9 @@ export default function OrphanagesMap() {
     <div id="page-map">
       <aside>
         <header>
-          <img src={mapMarkerImg} alt="Map marker" />
+          <Link to="/">
+            <img src={mapMarkerImg} alt="Map marker" />
+          </Link>
 
           <h2>Escolha um orfanato no mapa</h2>
           <p>Muitas crianças estão esperando a sua visita :)</p>
