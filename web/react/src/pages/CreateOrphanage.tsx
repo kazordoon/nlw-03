@@ -62,10 +62,10 @@ export default function CreateOrphanage() {
       open_on_weekends: openOnWeekends,
     };
 
-    const errors = OrphanageValidator.validate(orphanage);
-    const hasErrors = errors.length > 0;
-    if (hasErrors) {
-      return alert(errors.join('\n'));
+    const validationErrors = OrphanageValidator.validate(orphanage);
+    const hasValidationErrors = validationErrors.length > 0;
+    if (hasValidationErrors) {
+      return alert(validationErrors.join('\n'));
     }
 
     const data = new FormData();
