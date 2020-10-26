@@ -147,7 +147,6 @@ export default class Orphanage extends Vue {
     }
 
     this.orphanage = foundOrphanage;
-    console.log(foundOrphanage);
     return null;
   }
 
