@@ -1,6 +1,8 @@
 <template>
   <aside class="app-sidebar">
-    <img src="/map-marker.svg" alt="Logo" />
+    <router-link to="/">
+      <img src="/map-marker.svg" alt="Logo" />
+    </router-link>
 
     <footer>
       <button @click="goBack" type="button">

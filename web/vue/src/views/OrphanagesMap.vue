@@ -2,7 +2,9 @@
   <div id="page-map">
     <aside>
       <header>
-        <img src="map-marker.svg" alt="Map marker" />
+        <router-link to="/">
+          <img src="map-marker.svg" alt="Map marker" />
+        </router-link>
 
         <h2>Escolha um orfanato no mapa</h2>
         <p>Muitas crianças estão esperando a sua visita :)</p>
