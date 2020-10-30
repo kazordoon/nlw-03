@@ -1,4 +1,4 @@
-// TODO: Cover uncovered lines
+import { Readable } from 'stream';
 import { OrphanageRepository } from './orphanage.repository';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateOrphanageDTO } from '../dto/create-orphanage.dto';
@@ -12,22 +12,27 @@ const orphanageMock: CreateOrphanageDTO = {
   opening_hours: 'any_opening_hours',
   open_on_weekends: true,
 };
-
-const orphanageRepositoryMock = () => ({
-  createOrphanage: jest.fn(),
-});
+const orphanageImagesMock: Express.Multer.File[] = [
+  {
+    path: 'any_path',
+    size: 1,
+    buffer: ('any_buffer' as unknown) as Buffer,
+    fieldname: 'any_fieldname',
+    stream: ('any_stream' as unknown) as Readable,
+    encoding: 'any_encoding',
+    filename: 'any_filename',
+    mimetype: 'any_mimetype',
+    destination: 'any_destination',
+    originalname: 'any_originalname',
+  },
+];
 
 describe('OrphanageRepository', () => {
   let repository: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        {
-          provide: OrphanageRepository,
-          useFactory: orphanageRepositoryMock,
-        },
-      ],
+      providers: [OrphanageRepository],
     }).compile();
 
     repository = module.get<OrphanageRepository>(OrphanageRepository);
@@ -39,12 +44,19 @@ describe('OrphanageRepository', () => {
 
   describe('createOrphanage()', () => {
     it('should call createOrphanage() and return the result', async () => {
-      const expectedResponse = 'any_value';
-      repository.createOrphanage.mockResolvedValue(expectedResponse);
-      const result = await repository.createOrphanage(orphanageMock);
+      repository.create = jest.fn().mockReturnValue('any_value');
+      repository.manager = {
+        save: jest.fn(),
+      };
 
-      expect(repository.createOrphanage).toHaveBeenCalledWith(orphanageMock);
-      expect(result).toBe(expectedResponse);
+      const result = await repository.createOrphanage(
+        orphanageMock,
+        orphanageImagesMock,
+      );
+
+      expect(repository.create).toBeCalledTimes(1);
+      expect(repository.manager.save).toBeCalledTimes(1);
+      expect(result).toEqual('any_value');
     });
   });
 });
